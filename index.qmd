@@ -1,0 +1,11 @@
+![](images/IMG_CA96029472D8-1.jpeg)
+
+---
+title: "Nabil Salehiyan"
+---
+
+##### Graduate student studying machine learning, artificial intelligence, and neuroscience at The University of Texas at Dallas. 
+
+##### Master of Science date of completion: May, 2023. 
+
+Nabil Is an Iranian-American student who grew up in Dallas, Texas. His undergraduate studies revolved around neuroscience, psychology, and computer science. After completion of his bachelor's degree in 2021, he began his masters at UT Dallas in order to combine his interests of data, ML/AI, and neuroscience. This website includes recent personal and academic projects, assignments with code, lab work, analytical methods used in multivariate analysis for data science, contact information, resume and more to come.
