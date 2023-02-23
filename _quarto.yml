@@ -43,6 +43,8 @@ website:
         text: Prediction VS Explanation
       - href: assignment2.html
         text: Teds_2016 Exploratory Analysis
+      - href: explanation vs prediction.pdf
+        text: Comparing Breiman, 2001 to Shmueli, 2010
       
       
      
