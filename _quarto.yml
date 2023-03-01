@@ -12,7 +12,7 @@ website:
     - text: "GitHub"
       icon: fa-github
       href: https://github.com/nabilsalehiyan
-    - href: nabilsalehiyan.resume214.pdf
+    - href: nabilsalehiyan.resume301.pdf
       text: "Resume"
       icon: fa-file-pdf-o
 
@@ -27,7 +27,8 @@ website:
         text: Loan Status Prediction
       - href: autism-discrimination.html
         text: MRI Autism Prediction 
-    - href: nabilsalehiyan.resume214.pdf
+      - href: projectproposal.html
+        text: police response project proposal 
    
    
     - text: Labs
@@ -39,12 +40,12 @@ website:
       
     - text: Assignments
       menu:
-      - href: assignment1.html
-        text: Prediction VS Explanation
-      - href: assignment2.html
-        text: Teds_2016 Exploratory Analysis
       - href: explanation vs prediction.pdf
         text: Comparing Breiman, 2001 to Shmueli, 2010
+      - href: assignment2.html
+        text: Teds_2016 Exploratory Analysis
+      
+        
       
       
      

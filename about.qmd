@@ -3,7 +3,7 @@ title: "About"
 ---
 
 About this site
-This site belongs to Nabil Salehiyan. 
-Nabil is an Iranian-American Masters Student at UT Dallas. 
-He grew up in Dallas, Texas and has a Bachelors degree in Psychology & Neuroscience. 
-Currenly he is working on his Masters in AI, data science, and machine learning. 
+
+```{r}
+1 + 1
+```

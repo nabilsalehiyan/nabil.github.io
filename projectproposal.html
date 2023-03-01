@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Nabil Salehiyan</title>
+<title>projectproposal</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -95,7 +95,7 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Resume</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link active" href="./index.html" aria-current="page">
+    <a class="nav-link" href="./index.html">
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item">
@@ -174,14 +174,24 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#areatopic" id="toc-areatopic" class="nav-link active" data-scroll-target="#areatopic">Area/Topic:</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data:</a></li>
+  <li><a href="#research-statement" id="toc-research-statement" class="nav-link" data-scroll-target="#research-statement">Research Statement:</a></li>
+  <li><a href="#method" id="toc-method" class="nav-link" data-scroll-target="#method">Method:</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References:</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Nabil Salehiyan</h1>
+<h1 class="title">projectproposal</h1>
 </div>
 
 
@@ -196,13 +206,25 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p><img src="images/IMG_CA96029472D8-1.jpeg" class="img-fluid"></p>
-<section id="graduate-student-studying-machine-learning-artificial-intelligence-and-neuroscience-at-the-university-of-texas-at-dallas." class="level5">
-<h5 class="anchored" data-anchor-id="graduate-student-studying-machine-learning-artificial-intelligence-and-neuroscience-at-the-university-of-texas-at-dallas.">Graduate student studying machine learning, artificial intelligence, and neuroscience at The University of Texas at Dallas.</h5>
+<section id="areatopic" class="level2">
+<h2 class="anchored" data-anchor-id="areatopic">Area/Topic:</h2>
+<p>We want to analyze San Francisco 911 calls for service to determine if there is a discrepancy between priority given to neighborhoods based on median household income, despite an important emergency.</p>
 </section>
-<section id="master-of-science-date-of-completion-may-2023." class="level5">
-<h5 class="anchored" data-anchor-id="master-of-science-date-of-completion-may-2023.">Master of Science date of completion: May, 2023.</h5>
-<p>Undergraduate studies revolved around neuroscience, psychology, and computer science. After completion of B.S. in 2021, I began my masters at UT Dallas in order to combine my interests of data, ML/AI, and neuroscience. This website includes recent personal and academic projects, assignments with code, lab work, analytical methods used in multivariate analysis for data science, contact information, resume and more to come.</p>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data:</h2>
+<p>We will be using the dataset “Law Enforcement Dispatched Calls for Service Real Time” found at data.gov. This is a continuously updating dataset from the City of San Francisco which began on December 3rd, 2021. To obtain demographic and income data for specific San Francisco neighborhoods, we will be using city-data.com from 2019.</p>
+</section>
+<section id="research-statement" class="level2">
+<h2 class="anchored" data-anchor-id="research-statement">Research Statement:</h2>
+<p>America has an apparent problem with its criminal justice system. Our law enforcement has marginalized certain groups of people based on socioeconomic status not just regarding proper situation handling but how fast the first responders show up to the scene. The question we want to answer using 911 emergency data from San Francisco is if there is a pattern or trend surrounding these calls and their responses. Does socioeconomic status determine the speed at which first responders show up at the scene? Being able to answer these questions will shed further light on the disparities that marginalized groups face in America, in hopes to find better solutions. The bias that officers have is not as inherent as people perceive it to be, research rather shows that these biases are more implicit and not self-actualized by law enforcement. If we are able to show this bias through knowledge-mining methods, these analyses could help bring more attention to the problems faced within our justice system.</p>
+</section>
+<section id="method" class="level2">
+<h2 class="anchored" data-anchor-id="method">Method:</h2>
+<p>We will use a supervised logistic regression method with our output variable being onscene_datetime. Our input variables will be received_datetime, dispatch_datetime,enroute_datetime, intersection_name, analysis_neighborhood, and police_district. We will also add input variables of median household income and majority race for each neighborhood. The data from data.gov consists of recorded logs of these 911 calls from San Francisco. The goal of the knowledge mining method will be to extract the hidden pattern behind the data to see if there is a correlation between these variables.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References:</h2>
+<p>City of San Francisco. 2021-2023. Law Enforcement Dispatched Calls for Service Real Time. https://catalog.data.gov/dataset/law-enforcement-dispatched-calls-for-service-real-time</p>
 
 
 </section>
