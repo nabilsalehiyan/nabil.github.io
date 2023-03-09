@@ -214,6 +214,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="./assignment2.html">
  <span class="dropdown-text">Teds_2016 Exploratory Analysis</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./assignment03.html">
+ <span class="dropdown-text">Multiple Regression Model</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -279,11 +283,15 @@ Levels: KMT DPP NP PFP TSU NPP NA</code></pre>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"descr"</span>, <span class="at">repos =</span> <span class="st">"http://cran.us.r-project.org"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-The downloaded binary packages are in
-    /var/folders/fg/l9nwkw5954b_7xv794xmt5_40000gn/T//Rtmp3LBffx/downloaded_packages</code></pre>
+  There is a binary version available but the source version is later:
+      binary source needs_compilation
+descr  1.1.5  1.1.6              TRUE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(descr)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">freq</span>(TEDS_2016<span class="sc">$</span>PartyID)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>installing the source package 'descr'</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(descr)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">freq</span>(TEDS_2016<span class="sc">$</span>PartyID)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TEDS_2016$PartyID 
       Frequency  Percent
@@ -296,21 +304,21 @@ NPP          43   2.5444
 NA          628  37.1598
 Total      1690 100.0000</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the Party ID variable</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the Party ID variable</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="assignment2_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(TEDS_2016, <span class="fu">aes</span>(PartyID)) <span class="sc">+</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(TEDS_2016, <span class="fu">aes</span>(PartyID)) <span class="sc">+</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="assignment2_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(TEDS_2016, <span class="fu">aes</span>(PartyID)) <span class="sc">+</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> (..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..))) <span class="sc">+</span> </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span>scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Party Support (%)"</span>) <span class="sc">+</span> </span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Taiwan Political Parties"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(TEDS_2016, <span class="fu">aes</span>(PartyID)) <span class="sc">+</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> (..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..))) <span class="sc">+</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span>scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Party Support (%)"</span>) <span class="sc">+</span> </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Taiwan Political Parties"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: The dot-dot notation (`..count..`) was deprecated in ggplot2 3.4.0.
 ℹ Please use `after_stat(count)` instead.</code></pre>
@@ -318,29 +326,33 @@ Total      1690 100.0000</code></pre>
 <div class="cell-output-display">
 <p><img src="assignment2_files/figure-html/unnamed-chunk-1-3.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(TEDS_2016, <span class="fu">aes</span>(PartyID)) <span class="sc">+</span> </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> (..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..),<span class="at">fill=</span>PartyID)) <span class="sc">+</span> </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span>scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Party Support (%)"</span>) <span class="sc">+</span> </span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Taiwan Political Parties"</span>) <span class="sc">+</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="assignment2_files/figure-html/unnamed-chunk-1-4.png" class="img-fluid" width="672"></p>
-</div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(TEDS_2016, <span class="fu">aes</span>(PartyID)) <span class="sc">+</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> (..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..),<span class="at">fill=</span>PartyID)) <span class="sc">+</span> </span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span>scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Party Support (%)"</span>) <span class="sc">+</span> </span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Taiwan Political Parties"</span>) <span class="sc">+</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"steel blue"</span>,<span class="st">"forestgreen"</span>,<span class="st">"khaki1"</span>,<span class="st">"orange"</span>,<span class="st">"goldenrod"</span>,<span class="st">"yellow"</span>,<span class="st">"grey"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="assignment2_files/figure-html/unnamed-chunk-1-4.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(TEDS_2016, <span class="fu">aes</span>(PartyID)) <span class="sc">+</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> (..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..),<span class="at">fill=</span>PartyID)) <span class="sc">+</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span>scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Party Support (%)"</span>) <span class="sc">+</span> </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Taiwan Political Parties"</span>) <span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"steel blue"</span>,<span class="st">"forestgreen"</span>,<span class="st">"khaki1"</span>,<span class="st">"orange"</span>,<span class="st">"goldenrod"</span>,<span class="st">"yellow"</span>,<span class="st">"grey"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="assignment2_files/figure-html/unnamed-chunk-1-5.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-✔ tibble  3.1.8     ✔ dplyr   1.1.0
+<pre><code>── Attaching packages
+───────────────────────────────────────
+tidyverse 1.3.2 ──</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ tibble  3.1.8     ✔ dplyr   1.1.0
 ✔ tidyr   1.3.0     ✔ stringr 1.5.0
 ✔ readr   2.1.3     ✔ forcats 1.0.0
 ✔ purrr   1.0.1     
@@ -348,21 +360,21 @@ Total      1690 100.0000</code></pre>
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>TEDS_2016 <span class="sc">%&gt;%</span> </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(PartyID) <span class="sc">%&gt;%</span> </span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">perc =</span> n <span class="sc">/</span> <span class="fu">nrow</span>(TEDS_2016)) <span class="ot">-&gt;</span> T2</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(T2, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(PartyID, <span class="sc">-</span>perc),<span class="at">y =</span> perc,<span class="at">fill=</span>PartyID)) <span class="sc">+</span> </span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Party Support (%)"</span>) <span class="sc">+</span> </span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Taiwan Political Parties"</span>) <span class="sc">+</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"steel blue"</span>,<span class="st">"forestgreen"</span>,<span class="st">"khaki1"</span>,<span class="st">"orange"</span>,<span class="st">"goldenrod"</span>,<span class="st">"yellow"</span>,<span class="st">"grey"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>TEDS_2016 <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(PartyID) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">perc =</span> n <span class="sc">/</span> <span class="fu">nrow</span>(TEDS_2016)) <span class="ot">-&gt;</span> T2</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(T2, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(PartyID, <span class="sc">-</span>perc),<span class="at">y =</span> perc,<span class="at">fill=</span>PartyID)) <span class="sc">+</span> </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Party Support (%)"</span>) <span class="sc">+</span> </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Taiwan Political Parties"</span>) <span class="sc">+</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"steel blue"</span>,<span class="st">"forestgreen"</span>,<span class="st">"khaki1"</span>,<span class="st">"orange"</span>,<span class="st">"goldenrod"</span>,<span class="st">"yellow"</span>,<span class="st">"grey"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="assignment2_files/figure-html/unnamed-chunk-1-6.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>TEDS_2016<span class="sc">$</span>Tondu<span class="ot">&lt;-</span><span class="fu">factor</span>(TEDS_2016<span class="sc">$</span>Tondu,<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Unification now"</span>,<span class="st">"Status quo, unif. in &gt;future"</span>,<span class="st">"Status quo, decide later"</span>,<span class="st">"Status quo forever"</span>, <span class="st">"Status quo, indep. in future"</span>, <span class="st">"Independence now"</span>,<span class="st">"No &gt;response"</span>))</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(descr)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">freq</span>(TEDS_2016<span class="sc">$</span>Tondu)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>TEDS_2016<span class="sc">$</span>Tondu<span class="ot">&lt;-</span><span class="fu">factor</span>(TEDS_2016<span class="sc">$</span>Tondu,<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Unification now"</span>,<span class="st">"Status quo, unif. in &gt;future"</span>,<span class="st">"Status quo, decide later"</span>,<span class="st">"Status quo forever"</span>, <span class="st">"Status quo, indep. in future"</span>, <span class="st">"Independence now"</span>,<span class="st">"No &gt;response"</span>))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(descr)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">freq</span>(TEDS_2016<span class="sc">$</span>Tondu)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="assignment2_files/figure-html/unnamed-chunk-1-7.png" class="img-fluid" width="672"></p>
 </div>
@@ -378,30 +390,30 @@ Independence now                   108   6.391
 No &gt;response                       121   7.160
 Total                             1690 100.000</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(TEDS_2016, <span class="fu">aes</span>(Tondu)) <span class="sc">+</span> </span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(TEDS_2016, <span class="fu">aes</span>(Tondu)) <span class="sc">+</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="assignment2_files/figure-html/unnamed-chunk-1-8.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(TEDS_2016, <span class="fu">aes</span>(Tondu)) <span class="sc">+</span> </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> (..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..))) <span class="sc">+</span> </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span>scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Count"</span>) <span class="sc">+</span> </span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Tondu"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(TEDS_2016, <span class="fu">aes</span>(Tondu)) <span class="sc">+</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> (..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..))) <span class="sc">+</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span>scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Count"</span>) <span class="sc">+</span> </span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Tondu"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="assignment2_files/figure-html/unnamed-chunk-1-9.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>TEDS_2016 <span class="sc">%&gt;%</span> </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Tondu) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">perc =</span> n <span class="sc">/</span> <span class="fu">nrow</span>(TEDS_2016)) <span class="ot">-&gt;</span> T2</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(T2, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Tondu, <span class="sc">-</span>perc),<span class="at">y =</span> perc,<span class="at">fill=</span>Tondu)) <span class="sc">+</span> </span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Count"</span>) <span class="sc">+</span> </span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Tondu Variables"</span>) <span class="sc">+</span></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"steel blue"</span>,<span class="st">"forestgreen"</span>,<span class="st">"khaki1"</span>,<span class="st">"orange"</span>,<span class="st">"goldenrod"</span>,<span class="st">"yellow"</span>,<span class="st">"grey"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>TEDS_2016 <span class="sc">%&gt;%</span> </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Tondu) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">perc =</span> n <span class="sc">/</span> <span class="fu">nrow</span>(TEDS_2016)) <span class="ot">-&gt;</span> T2</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(T2, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Tondu, <span class="sc">-</span>perc),<span class="at">y =</span> perc,<span class="at">fill=</span>Tondu)) <span class="sc">+</span> </span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Count"</span>) <span class="sc">+</span> </span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Tondu Variables"</span>) <span class="sc">+</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"steel blue"</span>,<span class="st">"forestgreen"</span>,<span class="st">"khaki1"</span>,<span class="st">"orange"</span>,<span class="st">"goldenrod"</span>,<span class="st">"yellow"</span>,<span class="st">"grey"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="assignment2_files/figure-html/unnamed-chunk-1-10.png" class="img-fluid" width="672"></p>
 </div>

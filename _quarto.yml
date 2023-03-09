@@ -29,7 +29,7 @@ website:
       - href: autism-discrimination.html
         text: MRI Autism Prediction 
       - href: projectproposal.html
-        text: Police Response Project Proposal 
+        text: police response project proposal 
    
    
     - text: Labs
@@ -42,9 +42,11 @@ website:
     - text: Assignments
       menu:
       - href: explanation vs prediction.pdf
-        text: To Explain or Predict?
+        text: Comparing Breiman, 2001 to Shmueli, 2010
       - href: assignment2.html
-        text: Teds_2016 Data Exploratory Analysis
+        text: Teds_2016 Exploratory Analysis
+      - href: assignment03.qmd
+        text: Multiple Regression Model 
       
         
       

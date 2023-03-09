@@ -1,0 +1,47 @@
+---
+title: "assignment03"
+---
+
+```{r}
+library(haven)
+TEDS_2016 <- read_stata("https://github.com/datageneration/home/blob/master/DataProgramming/data/TEDS_2016.dta?raw=true")
+```
+
+```{r}
+TEDS_2016$Tondu<-as.numeric(TEDS_2016$Tondu,labels=c("Unification now”, “Status quo, unif. in future”, “Status quo, decide later", "Status quo forever", "Status quo, indep. in future", "Independence now”, “No response"))
+```
+
+```{r}
+
+
+attach(TEDS_2016)
+
+modl <- lm(Tondu ~ female + DPP + age + income+ edu + Taiwanese + Econ_worse)
+
+summary (modl)
+
+subset <- subset(TEDS_2016, select = c(Tondu, female, DPP, age, income, edu, Taiwanese, Econ_worse))
+
+library(ggplot2)
+
+ggplot(subset, aes(x = Age, y = Tondu)) +
+
+  geom_point() +
+
+  geom_smooth(method = "lm")
+
+ggplot(subset, aes(x = edu, y = Tondu)) +
+
+  geom_point() +
+
+  geom_smooth(method = "lm")
+
+ggplot(subset, aes(x = income, y = Tondu)) +
+
+  geom_point() +
+
+  geom_smooth(method = "lm")
+
+```
+
+The problem here is that the dependent variable has 7 categories. This regression analysis is meant for only one dependent variable which is why the graphs look like such. A better multivariate analysis method could make more sense of this.
