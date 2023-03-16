@@ -42,11 +42,13 @@ website:
     - text: Assignments
       menu:
       - href: explanation vs prediction.pdf
-        text: Comparing Breiman, 2001 to Shmueli, 2010
+        text: To Explain or Predict
       - href: assignment2.html
-        text: Teds_2016 Exploratory Analysis
+        text: Exploratory Analysis
       - href: assignment03.qmd
-        text: Multiple Regression Model 
+        text: Multiple Regression 
+      - href: assignment04.qmd
+        text: Machine Learning Methods 
       
         
       
