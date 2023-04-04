@@ -1,0 +1,89 @@
+# Text Mining
+
+# Wordcloud created from text data downloaded from the web
+
+# Data: Winston Churchill's speech
+
+```{r}
+# Install the easypackages package 
+#install.packages(c("easypackages","XML","wordcloud","RColorBrewer","NLP","tm","quanteda","quanteda.textstats"))
+library(easypackages)
+libraries("XML","wordcloud","RColorBrewer","NLP","tm","quanteda","quanteda.textstats")
+```
+
+```{r}
+# Download text data from website
+church <-URLencode("http://www.historyplace.com/speeches/churchill-hour.htm")
+```
+
+```{r}
+# use htmlTreeParse function to read and parse paragraphs
+
+doc.html<- htmlTreeParse(church, useInternal=TRUE)
+church <- unlist(xpathApply(doc.html, '//p', xmlValue))
+
+head(church, 3)
+
+words.vec <- VectorSource(church)
+
+```
+
+```{r}
+# Check the class of words.vec
+
+class(words.vec)
+
+```
+
+```{r}
+# Create Corpus object for preprocessing
+words.corpus <- Corpus(words.vec)
+inspect(words.corpus)
+```
+
+```{r}
+# Turn all words to lower case
+
+words.corpus <- tm_map(words.corpus, content_transformer(tolower))
+```
+
+```{r}
+# Remove punctuations, numbers
+words.corpus <- tm_map(words.corpus, removePunctuation)
+words.corpus <- tm_map(words.corpus, removeNumbers)
+```
+
+```{r}
+# How about stopwords, then uniform bag of words created
+
+words.corpus <- tm_map(words.corpus, removeWords, stopwords("english"))
+```
+
+```{r}
+# Create Term Document Matric
+
+tdm <- TermDocumentMatrix(words.corpus)
+inspect(tdm)
+
+m <- as.matrix(tdm)
+wordCounts <- rowSums(m)
+wordCounts <- sort(wordCounts, decreasing=TRUE)
+head(wordCounts)
+```
+
+```{r}
+# Create Wordcloud
+cloudFrame<-data.frame(word=names(wordCounts),freq=wordCounts)
+
+set.seed(1234)
+wordcloud(cloudFrame$word,cloudFrame$freq)
+wordcloud(names(wordCounts),wordCounts, min.freq=1,random.order=FALSE, max.words=200,scale=c(4,.5), rot.per=0.35,colors=brewer.pal(8,"Dark2"))
+
+
+```
+
+```{r}
+#  N-gram with two to three words
+textstat_collocations(church, size = 2:3) 
+
+```

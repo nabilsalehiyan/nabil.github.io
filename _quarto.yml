@@ -49,6 +49,8 @@ website:
         text: Multiple Regression 
       - href: assignment04.qmd
         text: Machine Learning Methods 
+      - href: assignment05.qmd
+        text: Text Mining 
       
         
       
