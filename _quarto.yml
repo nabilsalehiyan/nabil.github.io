@@ -39,9 +39,9 @@ website:
       - href: Lab02.html
         text: Basic Commands in R - Data
       
-    - text: Assignments
+    - text: Data Mining Assignments
       menu:
-      - href: explanation vs prediction.pdf
+      - href: Explanation vs Prediction.pdf
         text: To Explain or Predict
       - href: assignment2.html
         text: Exploratory Analysis
@@ -51,6 +51,8 @@ website:
         text: Machine Learning Methods 
       - href: assignment05.qmd
         text: Text Mining 
+      - href: assign06.qmd
+        text: Linear and Logistic Regression
       
         
       
