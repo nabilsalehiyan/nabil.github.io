@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Assignment 2</title>
+<title>Logistic Regression- Stock Market</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -252,14 +252,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#part-2" id="toc-part-2" class="nav-link active" data-scroll-target="#part-2">Part 2</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Assignment 2</h1>
+<h1 class="title">Logistic Regression- Stock Market</h1>
 </div>
 
 
@@ -275,155 +281,198 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header>
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven) </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>TEDS_2016 <span class="ot">&lt;-</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_stata</span>(<span class="st">"https://github.com/datageneration/home/blob/master/DataProgramming/data/TEDS_2016.dta?raw=true"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#TEDS_2016</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>TEDS_2016<span class="sc">$</span>PartyID <span class="ot">&lt;-</span> <span class="fu">factor</span>(TEDS_2016<span class="sc">$</span>PartyID, <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"KMT"</span>,<span class="st">"DPP"</span>,<span class="st">"NP"</span>,<span class="st">"PFP"</span>, <span class="st">"TSU"</span>, <span class="st">"NPP"</span>,<span class="st">"NA"</span>))</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(TEDS_2016)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(PartyID)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] NA  NA  KMT NA  NA  DPP
-Levels: KMT DPP NP PFP TSU NPP NA</code></pre>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Knowledge Mining: Logistic Regression</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load ISLR library</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(ISLR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: ISLR</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(PartyID)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check dataset Smarket</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>?Smarket</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Smarket)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] NA  NA  DPP NA  NA  NA 
-Levels: KMT DPP NP PFP TSU NPP NA</code></pre>
+<pre><code>[1] "Year"      "Lag1"      "Lag2"      "Lag3"      "Lag4"      "Lag5"     
+[7] "Volume"    "Today"     "Direction"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"descr"</span>, <span class="at">repos =</span> <span class="st">"http://cran.us.r-project.org"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Smarket)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Year           Lag1                Lag2                Lag3          
+ Min.   :2001   Min.   :-4.922000   Min.   :-4.922000   Min.   :-4.922000  
+ 1st Qu.:2002   1st Qu.:-0.639500   1st Qu.:-0.639500   1st Qu.:-0.640000  
+ Median :2003   Median : 0.039000   Median : 0.039000   Median : 0.038500  
+ Mean   :2003   Mean   : 0.003834   Mean   : 0.003919   Mean   : 0.001716  
+ 3rd Qu.:2004   3rd Qu.: 0.596750   3rd Qu.: 0.596750   3rd Qu.: 0.596750  
+ Max.   :2005   Max.   : 5.733000   Max.   : 5.733000   Max.   : 5.733000  
+      Lag4                Lag5              Volume           Today          
+ Min.   :-4.922000   Min.   :-4.92200   Min.   :0.3561   Min.   :-4.922000  
+ 1st Qu.:-0.640000   1st Qu.:-0.64000   1st Qu.:1.2574   1st Qu.:-0.639500  
+ Median : 0.038500   Median : 0.03850   Median :1.4229   Median : 0.038500  
+ Mean   : 0.001636   Mean   : 0.00561   Mean   :1.4783   Mean   : 0.003138  
+ 3rd Qu.: 0.596750   3rd Qu.: 0.59700   3rd Qu.:1.6417   3rd Qu.: 0.596750  
+ Max.   : 5.733000   Max.   : 5.73300   Max.   :3.1525   Max.   : 5.733000  
+ Direction 
+ Down:602  
+ Up  :648  
+           
+           
+           
+           </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a dataframe for data browsing</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sm<span class="ot">=</span>Smarket</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Bivariate Plot of inter-lag correlations</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(Smarket,<span class="at">col=</span>Smarket<span class="sc">$</span>Direction,<span class="at">cex=</span>.<span class="dv">5</span>, <span class="at">pch=</span><span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="assign07_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistic regression</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>glm.fit<span class="ot">=</span><span class="fu">glm</span>(Direction<span class="sc">~</span>Lag1<span class="sc">+</span>Lag2<span class="sc">+</span>Lag3<span class="sc">+</span>Lag4<span class="sc">+</span>Lag5<span class="sc">+</span>Volume,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">data=</span>Smarket,<span class="at">family=</span>binomial)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-The downloaded binary packages are in
-    /var/folders/fg/l9nwkw5954b_7xv794xmt5_40000gn/T//RtmpUaef80/downloaded_packages</code></pre>
+Call:
+glm(formula = Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + 
+    Volume, family = binomial, data = Smarket)
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+-1.446  -1.203   1.065   1.145   1.326  
+
+Coefficients:
+             Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept) -0.126000   0.240736  -0.523    0.601
+Lag1        -0.073074   0.050167  -1.457    0.145
+Lag2        -0.042301   0.050086  -0.845    0.398
+Lag3         0.011085   0.049939   0.222    0.824
+Lag4         0.009359   0.049974   0.187    0.851
+Lag5         0.010313   0.049511   0.208    0.835
+Volume       0.135441   0.158360   0.855    0.392
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1731.2  on 1249  degrees of freedom
+Residual deviance: 1727.6  on 1243  degrees of freedom
+AIC: 1741.6
+
+Number of Fisher Scoring iterations: 3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(descr)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">freq</span>(TEDS_2016<span class="sc">$</span>PartyID)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>glm.probs<span class="ot">=</span><span class="fu">predict</span>(glm.fit,<span class="at">type=</span><span class="st">"response"</span>) </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>glm.probs[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>TEDS_2016$PartyID 
-      Frequency  Percent
-KMT         388  22.9586
-DPP         591  34.9704
-NP            3   0.1775
-PFP          32   1.8935
-TSU           5   0.2959
-NPP          43   2.5444
-NA          628  37.1598
-Total      1690 100.0000</code></pre>
+<pre><code>        1         2         3         4         5 
+0.5070841 0.4814679 0.4811388 0.5152224 0.5107812 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the Party ID variable</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="assignment2_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(TEDS_2016, <span class="fu">aes</span>(PartyID)) <span class="sc">+</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="assignment2_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(TEDS_2016, <span class="fu">aes</span>(PartyID)) <span class="sc">+</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> (..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..))) <span class="sc">+</span> </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span>scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Party Support (%)"</span>) <span class="sc">+</span> </span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Taiwan Political Parties"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: The dot-dot notation (`..count..`) was deprecated in ggplot2 3.4.0.
-ℹ Please use `after_stat(count)` instead.</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="assignment2_files/figure-html/unnamed-chunk-1-3.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(TEDS_2016, <span class="fu">aes</span>(PartyID)) <span class="sc">+</span> </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> (..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..),<span class="at">fill=</span>PartyID)) <span class="sc">+</span> </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span>scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Party Support (%)"</span>) <span class="sc">+</span> </span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Taiwan Political Parties"</span>) <span class="sc">+</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="assignment2_files/figure-html/unnamed-chunk-1-4.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(TEDS_2016, <span class="fu">aes</span>(PartyID)) <span class="sc">+</span> </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> (..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..),<span class="at">fill=</span>PartyID)) <span class="sc">+</span> </span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span>scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Party Support (%)"</span>) <span class="sc">+</span> </span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Taiwan Political Parties"</span>) <span class="sc">+</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"steel blue"</span>,<span class="st">"forestgreen"</span>,<span class="st">"khaki1"</span>,<span class="st">"orange"</span>,<span class="st">"goldenrod"</span>,<span class="st">"yellow"</span>,<span class="st">"grey"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="assignment2_files/figure-html/unnamed-chunk-1-5.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.0     ✔ readr     2.1.4
-✔ forcats   1.0.0     ✔ stringr   1.5.0
-✔ lubridate 1.9.2     ✔ tibble    3.2.1
-✔ purrr     1.0.1     ✔ tidyr     1.3.0
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>TEDS_2016 <span class="sc">%&gt;%</span> </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(PartyID) <span class="sc">%&gt;%</span> </span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">perc =</span> n <span class="sc">/</span> <span class="fu">nrow</span>(TEDS_2016)) <span class="ot">-&gt;</span> T2</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(T2, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(PartyID, <span class="sc">-</span>perc),<span class="at">y =</span> perc,<span class="at">fill=</span>PartyID)) <span class="sc">+</span> </span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Party Support (%)"</span>) <span class="sc">+</span> </span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Taiwan Political Parties"</span>) <span class="sc">+</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"steel blue"</span>,<span class="st">"forestgreen"</span>,<span class="st">"khaki1"</span>,<span class="st">"orange"</span>,<span class="st">"goldenrod"</span>,<span class="st">"yellow"</span>,<span class="st">"grey"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="assignment2_files/figure-html/unnamed-chunk-1-6.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>TEDS_2016<span class="sc">$</span>Tondu<span class="ot">&lt;-</span><span class="fu">factor</span>(TEDS_2016<span class="sc">$</span>Tondu,<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Unification now"</span>,<span class="st">"Status quo, unif. in &gt;future"</span>,<span class="st">"Status quo, decide later"</span>,<span class="st">"Status quo forever"</span>, <span class="st">"Status quo, indep. in future"</span>, <span class="st">"Independence now"</span>,<span class="st">"No &gt;response"</span>))</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(descr)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">freq</span>(TEDS_2016<span class="sc">$</span>Tondu)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="assignment2_files/figure-html/unnamed-chunk-1-7.png" class="img-fluid" width="672"></p>
-</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>glm.pred<span class="ot">=</span><span class="fu">ifelse</span>(glm.probs<span class="sc">&gt;</span><span class="fl">0.5</span>,<span class="st">"Up"</span>,<span class="st">"Down"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(Smarket)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(glm.pred,Direction)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>TEDS_2016$Tondu 
-                             Frequency Percent
-Unification now                     27   1.598
-Status quo, unif. in &gt;future       180  10.651
-Status quo, decide later           546  32.308
-Status quo forever                 328  19.408
-Status quo, indep. in future       380  22.485
-Independence now                   108   6.391
-No &gt;response                       121   7.160
-Total                             1690 100.000</code></pre>
+<pre><code>        Direction
+glm.pred Down  Up
+    Down  145 141
+    Up    457 507</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(TEDS_2016, <span class="fu">aes</span>(Tondu)) <span class="sc">+</span> </span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="assignment2_files/figure-html/unnamed-chunk-1-8.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(glm.pred<span class="sc">==</span>Direction)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5216</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(TEDS_2016, <span class="fu">aes</span>(Tondu)) <span class="sc">+</span> </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> (..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..))) <span class="sc">+</span> </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span>scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Count"</span>) <span class="sc">+</span> </span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Tondu"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="assignment2_files/figure-html/unnamed-chunk-1-9.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make training and test set for prediction</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>train <span class="ot">=</span> Year<span class="sc">&lt;</span><span class="dv">2005</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>glm.fit<span class="ot">=</span><span class="fu">glm</span>(Direction<span class="sc">~</span>Lag1<span class="sc">+</span>Lag2<span class="sc">+</span>Lag3<span class="sc">+</span>Lag4<span class="sc">+</span>Lag5<span class="sc">+</span>Volume,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">data=</span>Smarket,<span class="at">family=</span>binomial, <span class="at">subset=</span>train)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>glm.probs<span class="ot">=</span><span class="fu">predict</span>(glm.fit,<span class="at">newdata=</span>Smarket[<span class="sc">!</span>train,],<span class="at">type=</span><span class="st">"response"</span>) </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>glm.pred<span class="ot">=</span><span class="fu">ifelse</span>(glm.probs <span class="sc">&gt;</span><span class="fl">0.5</span>,<span class="st">"Up"</span>,<span class="st">"Down"</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>Direction<span class="fl">.2005</span><span class="ot">=</span>Smarket<span class="sc">$</span>Direction[<span class="sc">!</span>train]</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(glm.pred,Direction<span class="fl">.2005</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        Direction.2005
+glm.pred Down Up
+    Down   77 97
+    Up     34 44</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>TEDS_2016 <span class="sc">%&gt;%</span> </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Tondu) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">perc =</span> n <span class="sc">/</span> <span class="fu">nrow</span>(TEDS_2016)) <span class="ot">-&gt;</span> T2</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(T2, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Tondu, <span class="sc">-</span>perc),<span class="at">y =</span> perc,<span class="at">fill=</span>Tondu)) <span class="sc">+</span> </span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Count"</span>) <span class="sc">+</span> </span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Tondu Variables"</span>) <span class="sc">+</span></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"steel blue"</span>,<span class="st">"forestgreen"</span>,<span class="st">"khaki1"</span>,<span class="st">"orange"</span>,<span class="st">"goldenrod"</span>,<span class="st">"yellow"</span>,<span class="st">"grey"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="assignment2_files/figure-html/unnamed-chunk-1-10.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(glm.pred<span class="sc">==</span>Direction<span class="fl">.2005</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4801587</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Fit smaller model</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>glm.fit<span class="ot">=</span><span class="fu">glm</span>(Direction<span class="sc">~</span>Lag1<span class="sc">+</span>Lag2,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">data=</span>Smarket,<span class="at">family=</span>binomial, <span class="at">subset=</span>train)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>glm.probs<span class="ot">=</span><span class="fu">predict</span>(glm.fit,<span class="at">newdata=</span>Smarket[<span class="sc">!</span>train,],<span class="at">type=</span><span class="st">"response"</span>) </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>glm.pred<span class="ot">=</span><span class="fu">ifelse</span>(glm.probs <span class="sc">&gt;</span><span class="fl">0.5</span>,<span class="st">"Up"</span>,<span class="st">"Down"</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(glm.pred,Direction<span class="fl">.2005</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        Direction.2005
+glm.pred Down  Up
+    Down   35  35
+    Up     76 106</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(glm.pred<span class="sc">==</span>Direction<span class="fl">.2005</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5595238</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check accuracy rate</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="dv">106</span><span class="sc">/</span>(<span class="dv">76</span><span class="sc">+</span><span class="dv">106</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5824176</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Interpretation:</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="do">## The model correctly predicted the direction of the stock market 48% of the time </span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="do">## when fitted to a set with all the variables</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="do">## When fit to a smaller data set (some variables removed) the model predicts </span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="do">## direction with 56% accuracy. This higher accuracy score suggests that lag1 and </span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="do">## lag2 have a stronger relationship to the direction of the stock market</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="do">## The model is has an accuracy score of 58% when predicting "up", which means</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="do">## for some reason the model is better at predicting just "up" compared to both</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="do">## up and down</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="part-2" class="level2">
+<h2 class="anchored" data-anchor-id="part-2">Part 2</h2>
+<p>a. <strong>What is/are the requirement(s) of LDA?</strong></p>
+<ol type="1">
+<li>predictor variables should follow a normal dist</li>
+<li>observations should be independent to each other</li>
+<li>linear relationship</li>
+<li>Co-variance measurements are identical in each class</li>
+</ol>
+<p>b. <strong>How LDA is different from Logistic Regression?</strong></p>
+<p>They are both binary classification methods for statistical analysis. There are many differences, here are a few:</p>
+<p><br>
+-LDA assumes the predictors have a normal distribution whereas logistic regression makes no assumptions</p>
+<p>-Logistic regression is based on maximum likelihood estimation, meaning it is trying to maximize the likelihood of observing the data given the parameters. LDA uses least squares estimation and is trying to maximize the separation between different classes.</p>
+<p>-Logistic regression can handle more predictors compared to observation, LDA has issues with this because it assumes the predictors have a normal distribution</p>
+<p><strong>c.&nbsp;What is ROC?</strong></p>
+<p>Receiver Operating Characteristic. An ROC curve is a probability curve that is used to measure the performance of a binary classification model. In this graph, sensitivity is plotted on the Y-axis and specificity is plotted on the X-axis. This shows how specificity and sensitivity are graphed together, the area under the curve is what quantifies the performance of the model as a whole. If the area under the ROC curve is 1.</p>
+<p><strong>d.&nbsp;What is sensitivity and specificity? Which is more important in your opinion?</strong></p>
+<p>Sensitivity is the accuracy for the positive values and specificity the accuracy for the negative values.</p>
+<p>In this case, sensitivity measures the TP … how accurate a “yes” was predicted as a “yes”. Sensitivity = TP / (TP + FN)</p>
+<p>Specificity measures TN… how accurate the model predicted a “no” when it was a “no”</p>
+<p>In my opinion It depends on the problem you’re trying to solve if specificity or sensitivity is more important. In a case where you are predicting a life threatening disease, sensitivity is more important because its okay to have more false positives than false negatives. In a situation like stock market where you are trying to maximize profit, sensitivity would be more important. If you are trying to minimize loss, specificity would be more important.</p>
+<p><br>
+<strong>e. From the following chart, for the purpose of prediction, which is more critical?</strong><br>
+</p>
+<p><img src="https://rishi-kat.github.io/posts/assign07/part_e.png" class="img-fluid"></p>
+<p>TP and TN are the most critical for prediction because they tell you how often your prediction was right</p>
+<p><strong>3. Calculate the prediction error from the following …</strong><br>
+</p>
+<p><img src="https://rishi-kat.github.io/posts/assign07/Q3.png" class="img-fluid"></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="dv">252</span><span class="sc">/</span><span class="dv">9896</span> <span class="co">#no when it was supposed to be yes </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.02546483</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="dv">23</span><span class="sc">/</span><span class="dv">104</span> <span class="co">#yes when it was supposed to be no </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2211538</code></pre>
 </div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
