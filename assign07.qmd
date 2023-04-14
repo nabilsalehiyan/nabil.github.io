@@ -1,0 +1,119 @@
+---
+title: "Logistic Regression- Stock Market"
+---
+
+```{r}
+# Knowledge Mining: Logistic Regression
+
+# Load ISLR library
+
+require(ISLR)
+
+# Check dataset Smarket
+?Smarket
+names(Smarket)
+summary(Smarket)
+
+# Create a dataframe for data browsing
+sm=Smarket
+
+# Bivariate Plot of inter-lag correlations
+pairs(Smarket,col=Smarket$Direction,cex=.5, pch=20)
+
+# Logistic regression
+glm.fit=glm(Direction~Lag1+Lag2+Lag3+Lag4+Lag5+Volume,
+            data=Smarket,family=binomial)
+summary(glm.fit)
+glm.probs=predict(glm.fit,type="response") 
+glm.probs[1:5]
+glm.pred=ifelse(glm.probs>0.5,"Up","Down")
+attach(Smarket)
+table(glm.pred,Direction)
+mean(glm.pred==Direction)
+
+# Make training and test set for prediction
+train = Year<2005
+glm.fit=glm(Direction~Lag1+Lag2+Lag3+Lag4+Lag5+Volume,
+            data=Smarket,family=binomial, subset=train)
+glm.probs=predict(glm.fit,newdata=Smarket[!train,],type="response") 
+glm.pred=ifelse(glm.probs >0.5,"Up","Down")
+Direction.2005=Smarket$Direction[!train]
+table(glm.pred,Direction.2005)
+mean(glm.pred==Direction.2005)
+#Fit smaller model
+glm.fit=glm(Direction~Lag1+Lag2,
+            data=Smarket,family=binomial, subset=train)
+glm.probs=predict(glm.fit,newdata=Smarket[!train,],type="response") 
+glm.pred=ifelse(glm.probs >0.5,"Up","Down")
+table(glm.pred,Direction.2005)
+mean(glm.pred==Direction.2005)
+
+# Check accuracy rate
+106/(76+106)
+
+# Interpretation:
+## The model correctly predicted the direction of the stock market 48% of the time 
+## when fitted to a set with all the variables
+## When fit to a smaller data set (some variables removed) the model predicts 
+## direction with 56% accuracy. This higher accuracy score suggests that lag1 and 
+## lag2 have a stronger relationship to the direction of the stock market
+## The model is has an accuracy score of 58% when predicting "up", which means
+## for some reason the model is better at predicting just "up" compared to both
+## up and down
+
+
+
+```
+
+## Part 2
+
+a\. **What is/are the requirement(s) of LDA?**
+
+1.  predictor variables should follow a normal dist
+2.  observations should be independent to each other
+3.  linear relationship
+4.  Co-variance measurements are identical in each class
+
+b\. **How LDA is different from Logistic Regression?**
+
+They are both binary classification methods for statistical analysis. There are many differences, here are a few:
+
+\
+-LDA assumes the predictors have a normal distribution whereas logistic regression makes no assumptions
+
+-Logistic regression is based on maximum likelihood estimation, meaning it is trying to maximize the likelihood of observing the data given the parameters. LDA uses least squares estimation and is trying to maximize the separation between different classes.
+
+-Logistic regression can handle more predictors compared to observation, LDA has issues with this because it assumes the predictors have a normal distribution
+
+**c. What is ROC?**
+
+Receiver Operating Characteristic. An ROC curve is a probability curve that is used to measure the performance of a binary classification model. In this graph, sensitivity is plotted on the Y-axis and specificity is plotted on the X-axis. This shows how specificity and sensitivity are graphed together, the area under the curve is what quantifies the performance of the model as a whole. If the area under the ROC curve is 1.
+
+**d. What is sensitivity and specificity? Which is more important in your opinion?**
+
+Sensitivity is the accuracy for the positive values and specificity the accuracy for the negative values.
+
+In this case, sensitivity measures the TP ... how accurate a "yes" was predicted as a "yes". Sensitivity = TP / (TP + FN)
+
+Specificity measures TN... how accurate the model predicted a "no" when it was a "no"
+
+In my opinion It depends on the problem you're trying to solve if specificity or sensitivity is more important. In a case where you are predicting a life threatening disease, sensitivity is more important because its okay to have more false positives than false negatives. In a situation like stock market where you are trying to maximize profit, sensitivity would be more important. If you are trying to minimize loss, specificity would be more important.
+
+\
+**e. From the following chart, for the purpose of prediction, which is more critical?**\
+
+![](https://rishi-kat.github.io/posts/assign07/part_e.png)
+
+TP and TN are the most critical for prediction because they tell you how often your prediction was right
+
+**3. Calculate the prediction error from the following ...**\
+
+![](https://rishi-kat.github.io/posts/assign07/Q3.png)
+
+```{r}
+252/9896 #no when it was supposed to be yes 
+```
+
+```{r}
+23/104 #yes when it was supposed to be no 
+```
