@@ -53,6 +53,10 @@ website:
         text: Text Mining 
       - href: assign06.qmd
         text: Linear and Logistic Regression
+      - href: assign07.qmd
+        text: Logistic Regression and LDA (Stock Market)
+      - href: assign08.qmd
+        text: Linear Discriminant Analysis
       
         
       
