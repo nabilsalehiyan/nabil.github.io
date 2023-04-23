@@ -1,9 +1,4 @@
----
-title: "Linear Regression/Logistic Regression"
----
-
-```{r}
-#install.packages(c("easypackages","MASS","ISLR","arm"))
+install.packages(c("easypackages","MASS","ISLR","arm"))
 library(easypackages)
 libraries("arm","MASS","ISLR")
 
@@ -118,40 +113,7 @@ library(coefplot2)
 
 coefplot2(fit3)
 
-
-```
-
-## Part 2
-
+##Part 2
 ## Use the TEDS2016 dataset to run a logit (logistic regression) model using female as sole predictor. The dependent variable is the vote (1-0) for Tsai Ing-wen, the female candidate for the then opposition party Democratic Progressive Party (DPP).
-
-```{r}
 library(haven)
 TEDS_2016 <- read_stata("https://github.com/datageneration/home/blob/master/DataProgramming/data/TEDS_2016.dta?raw=true")
-
-```
-
-```{r}
-glm.vt <- glm(votetsai~female, data=TEDS_2016,family=binomial)
-summary(glm.vt)
-```
-
-## **Are female voters more likely to vote for President Tsai? Why or why not?** No because the value for the coefficient for the female variable is -0.06517 which is not significant. Suggesting there are no differences between male and female voters.
-
-## **Add party ID variables (KMT, DPP) and other demographic variables (age, edu, income) to improve the model. What do you find? Which group of variables work better in explaining/predicting votetsai?**
-
-```{r}
-glm.vt2 <- glm(votetsai~female + KMT + DPP + age + edu + income, data=TEDS_2016,family=binomial)
-summary(glm.vt2)
-```
-
-## In this, it seems that KMT and DPP predict votesai better (AIC = 850). When using female as the predictor the AIC was 1670. A lower AIC value shows the better fit. (AIC = Akaike Information Criterion).
-
-## **Try adding the following variables: Independence -- Supporting Taiwan's Independence (vs. Unification with China), Econ_worse -- Evaluations of economy (Negative), Govt_dont_care -- Political Efficacy (Government does not care about people), Minnan_father -- Descendent of local Taiwanese, Mainland_father -- Descendent of mainland China (migrated from mainland circa or after 1949), Taiwanese -- Self-identified Taiwanese**
-
-```{r}
-glm.vt3 <- glm(votetsai~female + KMT + DPP + age + edu + income + Independence + Econ_worse + Govt_dont_care + Minnan_father + Mainland_father + Taiwanese, data=TEDS_2016,family=binomial)
-summary(glm.vt3)
-```
-
-## Here the AIC for the model is 793.13, suggesting that the model with these variables added is the best for predicting votesai

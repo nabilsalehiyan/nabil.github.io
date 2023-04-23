@@ -34,30 +34,19 @@ mean(lda.pred$class==Smarket.2005$Direction)
 
 From the three methods (best subset, forward stepwise, and backward stepwise):
 
-a. Which of the three models with k predictors has the smallest training RSS?
+a.  Which of the three models with k predictors has the smallest training RSS?
 
-From these methods, best subset selects the model with the smallest training RSS. 
-This method searches through all the subsets of predictors and picks the one 
-with the lowest RSS on the training data. 
-
+From these methods, best subset selects the model with the smallest training RSS. This method searches through all the subsets of predictors and picks the one with the lowest RSS on the training data.
 
 b\. Which of the three models with k predictors has the smallest test RSS?
 
-In order to pick the model with the smallest test RSS, we need to estimate the error. 
-We can do this using validation or cross-validation, or indirectly estimate the
-error by making an adjustment to the training error to account for the bias that 
-comes from overfitting
-It also depends on other factors such as number of variables and curve of the data. 
-Cp, AIC, BIC, and Adjusted R2 are all techniques for adjusting the training error
-and allows us to select amongst models with different numbers of variables. 
+In order to pick the model with the smallest test RSS, we need to estimate the error. We can do this using validation or cross-validation, or indirectly estimate the error by making an adjustment to the training error to account for the bias that comes from overfitting It also depends on other factors such as number of variables and curve of the data. Cp, AIC, BIC, and Adjusted R2 are all techniques for adjusting the training error and allows us to select amongst models with different numbers of variables.
 
-Cp: This statistic takes on a small value when the test error is also small. 
+Cp: This statistic takes on a small value when the test error is also small.
 
 AIC: This statistic is best for a large class of models fit by maximum likelihood
 
-BIC: Dervied from a bayesian perspective. This also takes on a smaller value 
-as the test error decreases. This method adds a heavier penalty on models with 
-many variables which results in smaller model selection compared to Cp. 
+BIC: Dervied from a bayesian perspective. This also takes on a smaller value as the test error decreases. This method adds a heavier penalty on models with many variables which results in smaller model selection compared to Cp.
 
 R\^2: this statistic increases as test error decreases.
 

@@ -1,30 +1,26 @@
----
-title: "Linear Regression/Logistic Regression"
----
+# Knowledge Mining: Linear regression
+# File: Lab_linearregression01.R
+# Theme: Linear regression
+# Data: MASS, ISLR
+# Adapted from ISLR Chapter 3 Lab
 
-```{r}
-#install.packages(c("easypackages","MASS","ISLR","arm"))
+install.packages(c("easypackages","MASS","ISLR","arm"))
 library(easypackages)
 libraries("arm","MASS","ISLR")
 
-
-# Load datasets from MASS and ISLR packages
+## Load datasets from MASS and ISLR packages
 attach(Boston)
 
 ### Simple linear regression
 names(Boston)
-
 # What is the Boston dataset?
+?Boston
 plot(medv~lstat,Boston, pch=20, cex=.8, col="steelblue")
 fit1=lm(medv~lstat,data=Boston)
 fit1
-
 summary(fit1)
-
 abline(fit1,col="firebrick")
-
 names(fit1)
-
 confint(fit1) # confidence intervals
 
 # Predictions using values in lstat
@@ -37,19 +33,15 @@ predict(fit1,data.frame(lstat=c(0,5,10,15)),interval="prediction") # prediction 
 ### Multiple linear regression
 fit2=lm(medv~lstat+age,data=Boston)
 summary(fit2)
-
 fit3=lm(medv~.,Boston)
 summary(fit3)
-
 par(mfrow=c(2,2))
 plot(fit3,pch=20, cex=.8, col="steelblue")
 mtext("fit3", side = 3, line = - 2, cex = 2, outer = TRUE)
 
-
 # Update function to re-specify the model, i.e. include all but age and indus variables
 fit4=update(fit3,~.-age-indus)
 summary(fit4)
-
 
 # Set the next plot configuration
 par(mfrow=c(2,2), main="fit4")
@@ -64,11 +56,9 @@ arm::coefplot(fit4)
 fit5=lm(medv~lstat*age,Boston) # include both variables and the interaction term x1:x2
 summary(fit5)
 
-
 ## I() identity function for squared term to interpret as-is
 ## Combine two command lines with semicolon
 fit6=lm(medv~lstat +I(lstat^2),Boston); summary(fit6)
-
 par(mfrow=c(1,1))
 plot(medv~lstat, pch=20, col="forestgreen")
 
@@ -78,17 +68,12 @@ points(lstat,fitted(fit7),col="steelblue",pch=20)
 
 ###Qualitative predictors
 names(Carseats)
-
-
 summary(Carseats)
-
 fit1=lm(Sales~.+Income:Advertising+Age:Price,Carseats) # add two interaction terms
 summary(fit1)
-
 attach(Carseats)
 contrasts(Carseats$ShelveLoc) # what is contrasts function?
 ?contrasts
-
 
 ### Writing an R function to combine the lm, plot and abline functions to 
 ### create a one step regression fit plot function
@@ -98,10 +83,7 @@ regplot=function(x,y){
   abline(fit,col="firebrick")
 }
 attach(Carseats)
-
 regplot(Price,Sales)
-
-
 ## Allow extra room for additional arguments/specifications
 regplot=function(x,y,...){
   fit=lm(y~x)
@@ -110,48 +92,16 @@ regplot=function(x,y,...){
 }
 regplot(Price,Sales,xlab="Price",ylab="Sales",col="steelblue",pch=20)
 
-
 ## Additional note: try out the coefplot2 package to finetune the coefplots
-install.packages("coefplot2", repos="http://www.math.mcmaster.ca/bolker/R", type="source")
-remotes::install_github("palday/coefplot2", subdir = "pkg")
-library(coefplot2) 
+##install.packages("coefplot2", repos="http://www.math.mcmaster.ca/bolker/R", type="source")
+## library(coefplot2)
 
-coefplot2(fit3)
+# Exercise 
+# Try other combination of interactive terms
+# How to interpret interactive terms?
+# Read: Brambor, T., Clark, W.R. and Golder, M., 2006. Understanding interaction models: Improving empirical analyses. Political analysis, 14(1), pp.63-82.
+# What are qualitative variables?  What class should they be? 
 
 
-```
 
-## Part 2
 
-## Use the TEDS2016 dataset to run a logit (logistic regression) model using female as sole predictor. The dependent variable is the vote (1-0) for Tsai Ing-wen, the female candidate for the then opposition party Democratic Progressive Party (DPP).
-
-```{r}
-library(haven)
-TEDS_2016 <- read_stata("https://github.com/datageneration/home/blob/master/DataProgramming/data/TEDS_2016.dta?raw=true")
-
-```
-
-```{r}
-glm.vt <- glm(votetsai~female, data=TEDS_2016,family=binomial)
-summary(glm.vt)
-```
-
-## **Are female voters more likely to vote for President Tsai? Why or why not?** No because the value for the coefficient for the female variable is -0.06517 which is not significant. Suggesting there are no differences between male and female voters.
-
-## **Add party ID variables (KMT, DPP) and other demographic variables (age, edu, income) to improve the model. What do you find? Which group of variables work better in explaining/predicting votetsai?**
-
-```{r}
-glm.vt2 <- glm(votetsai~female + KMT + DPP + age + edu + income, data=TEDS_2016,family=binomial)
-summary(glm.vt2)
-```
-
-## In this, it seems that KMT and DPP predict votesai better (AIC = 850). When using female as the predictor the AIC was 1670. A lower AIC value shows the better fit. (AIC = Akaike Information Criterion).
-
-## **Try adding the following variables: Independence -- Supporting Taiwan's Independence (vs. Unification with China), Econ_worse -- Evaluations of economy (Negative), Govt_dont_care -- Political Efficacy (Government does not care about people), Minnan_father -- Descendent of local Taiwanese, Mainland_father -- Descendent of mainland China (migrated from mainland circa or after 1949), Taiwanese -- Self-identified Taiwanese**
-
-```{r}
-glm.vt3 <- glm(votetsai~female + KMT + DPP + age + edu + income + Independence + Econ_worse + Govt_dont_care + Minnan_father + Mainland_father + Taiwanese, data=TEDS_2016,family=binomial)
-summary(glm.vt3)
-```
-
-## Here the AIC for the model is 793.13, suggesting that the model with these variables added is the best for predicting votesai

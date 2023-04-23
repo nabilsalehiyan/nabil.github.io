@@ -79,3 +79,26 @@ ggplot(T2, aes(x = reorder(Tondu, -perc),y = perc,fill=Tondu)) +
 
 
 ```
+
+Problems with the dataset:
+
+There are missing values in this dataset. A solution would be to replace these with "NA".
+
+```{r}
+TEDS_2016$votetsai <- as.factor(TEDS_2016$votetsai)
+ggplot(TEDS_2016, aes(Tondu, fill = votetsai)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle = 90),
+        legend.position = "bottom")
+
+```
+
+```{r}
+#age variable
+TEDS_2016$age <- as.factor(TEDS_2016$age)
+ggplot(TEDS_2016, aes(Tondu, fill = age)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle = 90),  
+        legend.title = element_blank(),  # remove the legend title
+        legend.text = element_text(size = 10))
+```
