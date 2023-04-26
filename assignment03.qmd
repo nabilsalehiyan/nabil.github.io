@@ -1,19 +1,70 @@
 ---
-title: "assignment03"
+title: "Assignment03"
+author: "Nabil Salehiyan"
 ---
+
+Load Packages/Data
 
 ```{r}
 library(haven)
+library(tidyverse)
 TEDS_2016 <- read_stata("https://github.com/datageneration/home/blob/master/DataProgramming/data/TEDS_2016.dta?raw=true")
 ```
 
+Select only relevant variables to create a subset of the dataset (Tondu, female, DPP, age, income, edu, Taiwanese and Econ_worse). Make sure the dependent variable Tondu is coded with right labels:
+
 ```{r}
+#creating a subset
+subset_ <- subset(TEDS_2016, select = c("Tondu", "female", "DPP", "age", "income", "edu", "Taiwanese", "Econ_worse"))
+
+#makes sure dependent variable is coded witht the right labels                       
 TEDS_2016$Tondu<-as.numeric(TEDS_2016$Tondu,labels=c("Unification now”, “Status quo, unif. in future”, “Status quo, decide later", "Status quo forever", "Status quo, indep. in future", "Independence now”, “No response"))
 ```
 
+Run a regplot on the dependent variable using age, education and, income.
+
 ```{r}
+modl <- lm(Tondu ~ age + edu + income, subset_)
+summary(modl)
 
+```
 
+```{r}
+age_t <- ggplot(subset_, aes(x=age,y=Tondu)) +
+  geom_smooth(method = "lm", se = F, show.legend = F, formula = y ~ x) +
+  geom_point(show.legend = F, position = "jitter", alpha=.5, pch=16) +
+  labs(x="Age", y="Tondu")
+
+edu_t <- ggplot(subset_, aes(x=edu,y=Tondu)) +
+  geom_smooth(method = "lm", se = F, show.legend = F, formula = y ~ x) +
+  geom_point(show.legend = F, position = "jitter", alpha=.5, pch=16) +
+  labs(x="Education", y="Tondu")
+
+income_t <- ggplot(subset_, aes(x=income,y=Tondu)) +
+  geom_smooth(method = "lm", se = F, show.legend = F, formula = y ~ x) +
+  geom_point(show.legend = F, position = "jitter", alpha=.5, pch=16) +
+  labs(x="Income", y="Tondu")
+
+suppressWarnings(print(age_t))
+```
+
+```{r}
+suppressWarnings(print(edu_t))
+
+```
+
+```{r}
+suppressWarnings(print(income_t))
+```
+
+```{r}
+unique(subset_$Tondu)
+
+```
+
+The problem here is that the dependent variable has 7 categories. A lin regression analysis is meant for only one dependent variable which is why the graphs look like such. A better multivariate analysis method could make more sense of this such as a **multinomial logistic regression.**
+
+```{r}
 attach(TEDS_2016)
 
 modl <- lm(Tondu ~ female + DPP + age + income+ edu + Taiwanese + Econ_worse)
@@ -42,6 +93,5 @@ ggplot(subset, aes(x = income, y = Tondu)) +
 
   geom_smooth(method = "lm")
 
-```
 
-The problem here is that the dependent variable has 7 categories. This regression analysis is meant for only one dependent variable which is why the graphs look like such. A better multivariate analysis method could make more sense of this.
+```
