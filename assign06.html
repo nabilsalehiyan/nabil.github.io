@@ -682,26 +682,32 @@ Medium    0      1</code></pre>
 <pre><code>Downloading GitHub repo palday/coefplot2@HEAD</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>vctrs    (0.6.1 -&gt; 0.6.2) [CRAN]
-ps       (1.7.4 -&gt; 1.7.5) [CRAN]
-processx (3.8.0 -&gt; 3.8.1) [CRAN]</code></pre>
+<pre><code>fs   (1.6.1  -&gt; 1.6.2 ) [CRAN]
+lme4 (1.1-32 -&gt; 1.1-33) [CRAN]</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Installing 3 packages: vctrs, ps, processx</code></pre>
+<pre><code>Installing 2 packages: fs, lme4</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-The downloaded binary packages are in
-    /var/folders/fg/l9nwkw5954b_7xv794xmt5_40000gn/T//RtmpQbhyYF/downloaded_packages
-── R CMD build ─────────────────────────────────────────────────────────────────
-* checking for file ‘/private/var/folders/fg/l9nwkw5954b_7xv794xmt5_40000gn/T/RtmpQbhyYF/remotes4c7e25024ab6/palday-coefplot2-23b7dcb/pkg/DESCRIPTION’ ... OK
+  There are binary versions available but the source versions are later:
+     binary source needs_compilation
+fs    1.6.1  1.6.2              TRUE
+lme4 1.1-32 1.1-33              TRUE</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>installing the source packages 'fs', 'lme4'</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>── R CMD build ─────────────────────────────────────────────────────────────────
+* checking for file ‘/private/var/folders/fg/l9nwkw5954b_7xv794xmt5_40000gn/T/RtmpjV1iMq/remotes694939ba83f8/palday-coefplot2-23b7dcb/pkg/DESCRIPTION’ ... OK
 * preparing ‘coefplot2’:
 * checking DESCRIPTION meta-information ... OK
 * checking for LF line-endings in source and make files and shell scripts
 * checking for empty or unneeded directories
 * building ‘coefplot2_0.1.3.3.tar.gz’</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coefplot2) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coefplot2) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: coda</code></pre>
 </div>
@@ -714,7 +720,7 @@ Attaching package: 'coda'</code></pre>
 
     traceplot</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coefplot2</span>(fit3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coefplot2</span>(fit3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="assign06_files/figure-html/unnamed-chunk-1-8.png" class="img-fluid" width="672"></p>
 </div>
@@ -725,12 +731,12 @@ Attaching package: 'coda'</code></pre>
 <section id="use-the-teds2016-dataset-to-run-a-logit-logistic-regression-model-using-female-as-sole-predictor.-the-dependent-variable-is-the-vote-1-0-for-tsai-ing-wen-the-female-candidate-for-the-then-opposition-party-democratic-progressive-party-dpp." class="level2">
 <h2 class="anchored" data-anchor-id="use-the-teds2016-dataset-to-run-a-logit-logistic-regression-model-using-female-as-sole-predictor.-the-dependent-variable-is-the-vote-1-0-for-tsai-ing-wen-the-female-candidate-for-the-then-opposition-party-democratic-progressive-party-dpp.">Use the TEDS2016 dataset to run a logit (logistic regression) model using female as sole predictor. The dependent variable is the vote (1-0) for Tsai Ing-wen, the female candidate for the then opposition party Democratic Progressive Party (DPP).</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>TEDS_2016 <span class="ot">&lt;-</span> <span class="fu">read_stata</span>(<span class="st">"https://github.com/datageneration/home/blob/master/DataProgramming/data/TEDS_2016.dta?raw=true"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>TEDS_2016 <span class="ot">&lt;-</span> <span class="fu">read_stata</span>(<span class="st">"https://github.com/datageneration/home/blob/master/DataProgramming/data/TEDS_2016.dta?raw=true"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>glm.vt <span class="ot">&lt;-</span> <span class="fu">glm</span>(votetsai<span class="sc">~</span>female, <span class="at">data=</span>TEDS_2016,<span class="at">family=</span>binomial)</span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.vt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>glm.vt <span class="ot">&lt;-</span> <span class="fu">glm</span>(votetsai<span class="sc">~</span>female, <span class="at">data=</span>TEDS_2016,<span class="at">family=</span>binomial)</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.vt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -764,8 +770,8 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <section id="add-party-id-variables-kmt-dpp-and-other-demographic-variables-age-edu-income-to-improve-the-model.-what-do-you-find-which-group-of-variables-work-better-in-explainingpredicting-votetsai" class="level2">
 <h2 class="anchored" data-anchor-id="add-party-id-variables-kmt-dpp-and-other-demographic-variables-age-edu-income-to-improve-the-model.-what-do-you-find-which-group-of-variables-work-better-in-explainingpredicting-votetsai"><strong>Add party ID variables (KMT, DPP) and other demographic variables (age, edu, income) to improve the model. What do you find? Which group of variables work better in explaining/predicting votetsai?</strong></h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>glm.vt2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(votetsai<span class="sc">~</span>female <span class="sc">+</span> KMT <span class="sc">+</span> DPP <span class="sc">+</span> age <span class="sc">+</span> edu <span class="sc">+</span> income, <span class="at">data=</span>TEDS_2016,<span class="at">family=</span>binomial)</span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.vt2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>glm.vt2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(votetsai<span class="sc">~</span>female <span class="sc">+</span> KMT <span class="sc">+</span> DPP <span class="sc">+</span> age <span class="sc">+</span> edu <span class="sc">+</span> income, <span class="at">data=</span>TEDS_2016,<span class="at">family=</span>binomial)</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.vt2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -805,8 +811,8 @@ Number of Fisher Scoring iterations: 6</code></pre>
 <section id="try-adding-the-following-variables-independence-supporting-taiwans-independence-vs.-unification-with-china-econ_worse-evaluations-of-economy-negative-govt_dont_care-political-efficacy-government-does-not-care-about-people-minnan_father-descendent-of-local-taiwanese-mainland_father-descendent-of-mainland-china-migrated-from-mainland-circa-or-after-1949-taiwanese-self-identified-taiwanese" class="level2">
 <h2 class="anchored" data-anchor-id="try-adding-the-following-variables-independence-supporting-taiwans-independence-vs.-unification-with-china-econ_worse-evaluations-of-economy-negative-govt_dont_care-political-efficacy-government-does-not-care-about-people-minnan_father-descendent-of-local-taiwanese-mainland_father-descendent-of-mainland-china-migrated-from-mainland-circa-or-after-1949-taiwanese-self-identified-taiwanese"><strong>Try adding the following variables: Independence – Supporting Taiwan’s Independence (vs.&nbsp;Unification with China), Econ_worse – Evaluations of economy (Negative), Govt_dont_care – Political Efficacy (Government does not care about people), Minnan_father – Descendent of local Taiwanese, Mainland_father – Descendent of mainland China (migrated from mainland circa or after 1949), Taiwanese – Self-identified Taiwanese</strong></h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>glm.vt3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(votetsai<span class="sc">~</span>female <span class="sc">+</span> KMT <span class="sc">+</span> DPP <span class="sc">+</span> age <span class="sc">+</span> edu <span class="sc">+</span> income <span class="sc">+</span> Independence <span class="sc">+</span> Econ_worse <span class="sc">+</span> Govt_dont_care <span class="sc">+</span> Minnan_father <span class="sc">+</span> Mainland_father <span class="sc">+</span> Taiwanese, <span class="at">data=</span>TEDS_2016,<span class="at">family=</span>binomial)</span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.vt3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>glm.vt3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(votetsai<span class="sc">~</span>female <span class="sc">+</span> KMT <span class="sc">+</span> DPP <span class="sc">+</span> age <span class="sc">+</span> edu <span class="sc">+</span> income <span class="sc">+</span> Independence <span class="sc">+</span> Econ_worse <span class="sc">+</span> Govt_dont_care <span class="sc">+</span> Minnan_father <span class="sc">+</span> Mainland_father <span class="sc">+</span> Taiwanese, <span class="at">data=</span>TEDS_2016,<span class="at">family=</span>binomial)</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.vt3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
