@@ -41,8 +41,8 @@ website:
       
     - text: Data Mining Assignments
       menu:
-      - href: Explanation vs Prediction.pdf
-        text: To Explain or Predict
+      - href: explanation vs prediction.pdf
+        text: Explaination vs Prediction
       - href: assignment2.html
         text: Exploratory Analysis
       - href: assignment03.qmd
